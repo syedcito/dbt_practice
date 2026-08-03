@@ -1,0 +1,33 @@
+
+models:
+  - name: user_sales_summary
+    description: One row per user, summarizing their activity as both a ticket buyer and seller on the platform.
+    columns:
+      - name: user_id
+        description: Primary key — unique identifier for a user.
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tickit__users')
+                field: user_id
+      - name: username
+      - name: first_name
+      - name: last_name
+      - name: city
+      - name: state
+      - name: tickets_bought
+        description: Number of purchase transactions this user made as a buyer.
+      - name: total_quantity_bought
+        description: Total number of tickets bought.
+      - name: total_spent
+        description: Total dollar amount spent as a buyer.
+      - name: tickets_sold
+        description: Number of sale transactions this user made as a seller.
+      - name: total_quantity_sold
+        description: Total number of tickets sold.
+      - name: total_revenue
+        description: Total dollar amount earned as a seller.
+      - name: total_commission_paid
+        description: Total commission paid to the platform as a seller.
