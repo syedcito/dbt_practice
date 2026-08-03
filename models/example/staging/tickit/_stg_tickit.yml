@@ -1,0 +1,62 @@
+models:
+  - name: stg_tickit__users
+    description: One row per user registered on the platform. Users can act as either buyers or sellers of tickets.
+    columns:
+      - name: user_id
+        description: Primary key — unique identifier for a user.
+        tests:
+          - unique
+          - not_null
+      - name: username
+        description: The user's login/display name.
+      - name: first_name
+        description: User's first name.
+      - name: last_name
+        description: User's last name.
+      - name: city
+        description: City the user is located in.
+      - name: state
+        description: State the user is located in.
+      - name: email
+        description: User's email address.
+      - name: phone
+        description: User's phone number.
+
+  - name: stg_tickit__sales
+    description: One row per completed ticket sale/transaction between a buyer and a seller.
+    columns:
+      - name: sale_id
+        description: Primary key — unique identifier for a sale transaction.
+        tests:
+          - unique
+          - not_null
+      - name: listing_id
+        description: Identifier for the ticket listing this sale came from.
+      - name: seller_id
+        description: Foreign key to stg_tickit__users — the user who sold the ticket.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tickit__users')
+                field: user_id
+      - name: buyer_id
+        description: Foreign key to stg_tickit__users — the user who bought the ticket.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_tickit__users')
+                field: user_id
+      - name: event_id
+        description: Identifier for the event the ticket was for.
+      - name: date_id
+        description: Identifier for the date dimension (not loaded in this project).
+      - name: quantity_sold
+        description: Number of tickets included in this sale.
+      - name: price_paid
+        description: Total price paid for the tickets in this sale.
+      - name: commission
+        description: Commission taken by the platform on this sale.
+      - name: sale_time
+        description: Timestamp of when the sale occurred.
